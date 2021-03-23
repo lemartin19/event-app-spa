@@ -1,16 +1,20 @@
 'use es6';
 
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Nav from './Nav';
 import EventFeed from './EventFeed';
 import EventDetails from './EventDetails';
 import NewEvent from './NewEvent';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
+import Login from './Login';
 
 const App = () => (
-  <div className="App">
+  <Container className="App">
     <BrowserRouter>
+      <Nav />
       <Switch>
         <Route path="/events/new">
           <NewEvent />
@@ -24,12 +28,15 @@ const App = () => (
         <Route path="/users/:id">
           <UserDetails />
         </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
         <Route path="/">
           <EventFeed />
         </Route>
       </Switch>
     </BrowserRouter>
-  </div>
+  </Container>
 );
 App.displayName = 'App';
 
