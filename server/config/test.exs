@@ -5,10 +5,10 @@ use Mix.Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :event_app_spa, EventApp.Repo,
+config :event_app_spa, EventAppSpa.Repo,
   username: "event_app_spa",
   password: "VCvp2QUBEV8SCjN3",
-  database: "event_app_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "event_app_spa_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
