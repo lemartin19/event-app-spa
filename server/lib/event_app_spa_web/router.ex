@@ -2,21 +2,19 @@ defmodule EventAppSpaWeb.Router do
   use EventAppSpaWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", EventAppSpaWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
+    pipe_through(:browser)
   end
 
   # Other scopes may use custom stacks.
@@ -35,8 +33,8 @@ defmodule EventAppSpaWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: EventAppSpaWeb.Telemetry
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: EventAppSpaWeb.Telemetry)
     end
   end
 end
