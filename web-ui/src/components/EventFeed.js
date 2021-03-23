@@ -3,22 +3,12 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getUserPhotoPath } from '../data/clients';
 import { useEventFeed } from '../hooks/useEventFeed';
 
 const Event = ({ event }) => {
   return (
     <div className="col-sm-4 p-2">
       <Card className="h-100">
-        <Card.Img variant="top">
-          <div className="text-center d-flex align-items-center min-h-50">
-            <img
-              src={getUserPhotoPath(event.user.id)}
-              alt="host avatar"
-              className="w-100"
-            />
-          </div>
-        </Card.Img>
         <Card.Title>{event.name}</Card.Title>
         <Card.Text>{event.description}</Card.Text>
         <Card.Link>

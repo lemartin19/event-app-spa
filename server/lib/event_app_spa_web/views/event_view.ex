@@ -1,6 +1,7 @@
 defmodule EventAppSpaWeb.EventView do
   use EventAppSpaWeb, :view
   alias EventAppSpaWeb.EventView
+  alias EventAppSpaWeb.UserView
 
   def render("index.json", %{events: events}) do
     %{data: render_many(events, EventView, "event.json")}
@@ -11,9 +12,14 @@ defmodule EventAppSpaWeb.EventView do
   end
 
   def render("event.json", %{event: event}) do
-    %{id: event.id,
+    owner = render_one(event.user, UserView, "user.json")
+
+    %{
+      id: event.id,
       name: event.name,
       description: event.description,
-      date: event.date}
+      date: event.date,
+      owner: owner
+    }
   end
 end

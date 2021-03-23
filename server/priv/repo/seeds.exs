@@ -13,22 +13,9 @@
 alias EventAppSpa.Repo
 alias EventAppSpa.Users.User
 alias EventAppSpa.Events.Event
-alias EventAppSpa.Avatars
 
-defmodule Inject do
-  def photo(name) do
-    photos = Application.app_dir(:event_app_spa, "priv/photos")
-    path = Path.join(photos, name)
-    {:ok, hash} = Avatars.save_photo(name, path)
-    hash
-  end
-end
-
-blue_people = Inject.photo("blue_people.jpg")
-aang = Inject.photo("aang.jpg")
-
-lynnsey = Repo.insert!(%User{name: "lynnsey", email: "lynnsey@gmail.com", avatar_hash: blue_people})
-Repo.insert!(%User{name: "ally", email: "ally@yahoo.com", avatar_hash: aang})
+lynnsey = Repo.insert!(%User{name: "lynnsey", email: "lynnsey@gmail.com"})
+Repo.insert!(%User{name: "ally", email: "ally@yahoo.com"})
 
 Repo.insert!(%Event{
   user_id: lynnsey.id,

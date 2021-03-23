@@ -3,9 +3,9 @@ defmodule EventAppSpa.Repo.Migrations.CreateInvites do
 
   def change do
     create table(:invites) do
-      add :user_email, :string
+      add :user_email, :string, null: false
       add :response, :string
-      add :event_id, references(:events, on_delete: :nothing)
+      add :event_id, references(:events, on_delete: :nothing), null: false
 
       timestamps()
     end

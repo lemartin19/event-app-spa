@@ -11,9 +11,6 @@ defmodule EventAppSpaWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar_hash: user.avatar_hash}
+    %{id: user.id, name: user.name, email: user.email}
   end
 end
