@@ -33,21 +33,26 @@ Event.displayName = 'Event';
 const EventFeed = () => {
   const { currentUser, events } = useEventFeed();
 
-  return currentUser ? (
+  return (
     <div>
-      <div class="row">
-        <div class="col mb-2">
-          <Link to="/events/new">New Event</Link>
-        </div>
-      </div>
-      <div class="d-flex flex-wrap">
-        {!events.length
-          ? 'No events to display'
-          : events.map((event) => <Event event={event} key={event.id} />)}
-      </div>
+      <h2 className="my-4">Event Feed</h2>
+      {currentUser ? (
+        <React.Fragment>
+          <div class="row mb-4">
+            <div class="col">
+              <Link to="/events/new">New Event</Link>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap">
+            {!events.length
+              ? 'No events to display'
+              : events.map((event) => <Event event={event} key={event.id} />)}
+          </div>
+        </React.Fragment>
+      ) : (
+        <div class="d-flex flex-wrap">Login to view events</div>
+      )}
     </div>
-  ) : (
-    <div class="d-flex flex-wrap">Login to view events</div>
   );
 };
 EventFeed.displayName = 'EventFeed';

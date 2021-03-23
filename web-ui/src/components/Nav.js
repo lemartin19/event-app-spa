@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Nav = () => (
-  <div className="w-100 d-flex justify-content-between">
+  <div className="w-100 d-flex justify-content-between mt-2">
     <Link to="/" className="my-2">
       My events
     </Link>
