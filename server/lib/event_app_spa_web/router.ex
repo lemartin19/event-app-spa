@@ -13,8 +13,13 @@ defmodule EventAppSpaWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", EventAppSpaWeb do
-    pipe_through(:browser)
+  scope "/api/v1", EventAppSpaWeb do
+    pipe_through(:api)
+
+    resources "/users", UserController, except: [:new, :edit]
+    resources "/events", EventController, except: [:new, :edit]
+    resources "/invites", InviteController, except: [:new, :edit]
+    resources "/comments", CommentController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.
