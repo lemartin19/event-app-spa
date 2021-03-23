@@ -9,11 +9,14 @@ const Event = ({ event }) => {
   return (
     <div className="col-sm-4 p-2">
       <Card className="h-100">
-        <Card.Title>{event.name}</Card.Title>
-        <Card.Text>{event.description}</Card.Text>
-        <Card.Link>
+        <Card.Body>
+          <Card.Title>{event.name}</Card.Title>
+          <Card.Subtitle className="text-muted mb-2">
+            Hosted by: {event.owner.name}
+          </Card.Subtitle>
+          <Card.Text>{event.description}</Card.Text>
           <Link to={`/events/${event.id}`}>Show Event</Link>
-        </Card.Link>
+        </Card.Body>
       </Card>
     </div>
   );
