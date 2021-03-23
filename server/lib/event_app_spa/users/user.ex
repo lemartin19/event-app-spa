@@ -6,8 +6,8 @@ defmodule EventAppSpa.Users.User do
     field(:email, :string)
     field(:name, :string)
     field(:avatar_hash, :string)
-    has_many(:events, EventApp.Events.Event)
-    has_many(:comments, EventApp.Events.Event)
+    has_many(:events, EventAppSpa.Events.Event)
+    has_many(:comments, EventAppSpa.Events.Event)
 
     timestamps()
   end
