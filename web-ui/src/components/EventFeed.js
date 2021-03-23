@@ -8,19 +8,19 @@ import { useEventFeed } from '../hooks/useEventFeed';
 
 const Event = ({ event }) => {
   return (
-    <div class="col-sm-4 p-2">
-      <Card class="h-100">
+    <div className="col-sm-4 p-2">
+      <Card className="h-100">
         <Card.Img variant="top">
-          <div class="text-center d-flex align-items-center min-h-50">
+          <div className="text-center d-flex align-items-center min-h-50">
             <img
               src={getUserPhotoPath(event.user.id)}
               alt="host avatar"
-              class="w-100"
+              className="w-100"
             />
           </div>
         </Card.Img>
         <Card.Title>{event.name}</Card.Title>
-        <Card.Text class="card-text">{event.description}</Card.Text>
+        <Card.Text>{event.description}</Card.Text>
         <Card.Link>
           <Link to={`/events/${event.id}`}>Show Event</Link>
         </Card.Link>
@@ -38,19 +38,19 @@ const EventFeed = () => {
       <h2 className="my-4">Event Feed</h2>
       {currentUser ? (
         <React.Fragment>
-          <div class="row mb-4">
-            <div class="col">
+          <div className="row mb-4">
+            <div className="col">
               <Link to="/events/new">New Event</Link>
             </div>
           </div>
-          <div class="d-flex flex-wrap">
+          <div className="d-flex flex-wrap">
             {!events.length
               ? 'No events to display'
               : events.map((event) => <Event event={event} key={event.id} />)}
           </div>
         </React.Fragment>
       ) : (
-        <div class="d-flex flex-wrap">Login to view events</div>
+        <div className="d-flex flex-wrap">Login to view events</div>
       )}
     </div>
   );
