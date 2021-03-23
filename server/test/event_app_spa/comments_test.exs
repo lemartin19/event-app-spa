@@ -1,18 +1,23 @@
 defmodule EventAppSpa.CommentsTest do
   use EventAppSpa.DataCase
 
+  alias EventAppSpa.TestFixtures
   alias EventAppSpa.Comments
+  alias EventAppSpa.Users
 
   describe "comments" do
     alias EventAppSpa.Comments.Comment
-
     @valid_attrs %{body: "some body"}
     @update_attrs %{body: "some updated body"}
-    @invalid_attrs %{body: nil}
+    @invalid_attrs %{body: nil, user_id: nil, event_id: nil}
 
     def comment_fixture(attrs \\ %{}) do
+      user_id = TestFixtures.user()
+      event_id = TestFixtures.event(user_id)
+
       {:ok, comment} =
         attrs
+        |> Map.merge(%{user_id: user_id, event_id: event_id})
         |> Enum.into(@valid_attrs)
         |> Comments.create_comment()
 
@@ -30,7 +35,14 @@ defmodule EventAppSpa.CommentsTest do
     end
 
     test "create_comment/1 with valid data creates a comment" do
-      assert {:ok, %Comment{} = comment} = Comments.create_comment(@valid_attrs)
+      user_id = TestFixtures.user()
+      event_id = TestFixtures.event(user_id)
+
+      assert {:ok, %Comment{} = comment} =
+               @valid_attrs
+               |> Map.merge(%{user_id: user_id, event_id: event_id})
+               |> Comments.create_comment()
+
       assert comment.body == "some body"
     end
 
@@ -40,7 +52,11 @@ defmodule EventAppSpa.CommentsTest do
 
     test "update_comment/2 with valid data updates the comment" do
       comment = comment_fixture()
-      assert {:ok, %Comment{} = comment} = Comments.update_comment(comment, @update_attrs)
+      user_id = TestFixtures.user()
+      event_id = TestFixtures.event(user_id)
+      new_attrs = Map.merge(@update_attrs, %{user_id: user_id, event_id: event_id})
+
+      assert {:ok, %Comment{} = comment} = Comments.update_comment(comment, new_attrs)
       assert comment.body == "some updated body"
     end
 

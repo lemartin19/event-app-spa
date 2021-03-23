@@ -1,18 +1,31 @@
 defmodule EventAppSpa.EventsTest do
   use EventAppSpa.DataCase
 
+  alias EventAppSpa.TestFixtures
+  alias EventAppSpa.Users
   alias EventAppSpa.Events
 
   describe "events" do
     alias EventAppSpa.Events.Event
 
-    @valid_attrs %{date: ~N[2010-04-17 14:00:00], description: "some description", name: "some name"}
-    @update_attrs %{date: ~N[2011-05-18 15:01:01], description: "some updated description", name: "some updated name"}
-    @invalid_attrs %{date: nil, description: nil, name: nil}
+    @valid_attrs %{
+      date: ~N[2010-04-17 14:00:00],
+      description: "some description",
+      name: "some name"
+    }
+    @update_attrs %{
+      date: ~N[2011-05-18 15:01:01],
+      description: "some updated description",
+      name: "some updated name"
+    }
+    @invalid_attrs %{date: nil, description: nil, name: nil, user_id: nil}
 
     def event_fixture(attrs \\ %{}) do
+      user_id = TestFixtures.user()
+
       {:ok, event} =
         attrs
+        |> Map.merge(%{user_id: user_id})
         |> Enum.into(@valid_attrs)
         |> Events.create_event()
 
@@ -30,7 +43,13 @@ defmodule EventAppSpa.EventsTest do
     end
 
     test "create_event/1 with valid data creates a event" do
-      assert {:ok, %Event{} = event} = Events.create_event(@valid_attrs)
+      user_id = TestFixtures.user()
+
+      assert {:ok, %Event{} = event} =
+               @valid_attrs
+               |> Map.merge(%{user_id: user_id})
+               |> Events.create_event()
+
       assert event.date == ~N[2010-04-17 14:00:00]
       assert event.description == "some description"
       assert event.name == "some name"
@@ -42,10 +61,13 @@ defmodule EventAppSpa.EventsTest do
 
     test "update_event/2 with valid data updates the event" do
       event = event_fixture()
-      assert {:ok, %Event{} = event} = Events.update_event(event, @update_attrs)
+      user_id = TestFixtures.user()
+      new_attrs = Map.merge(@update_attrs, %{user_id: user_id})
+      assert {:ok, %Event{} = event} = Events.update_event(event, new_attrs)
       assert event.date == ~N[2011-05-18 15:01:01]
       assert event.description == "some updated description"
       assert event.name == "some updated name"
+      assert event.user_id == user_id
     end
 
     test "update_event/2 with invalid data returns error changeset" do
