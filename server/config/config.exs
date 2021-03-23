@@ -7,6 +7,9 @@
 # General application configuration
 use Mix.Config
 
+config :event_app_spa,
+  ecto_repos: [EventAppSpa.Repo]
+
 # Configures the endpoint
 config :event_app_spa, EventAppSpaWeb.Endpoint,
   url: [host: "localhost"],

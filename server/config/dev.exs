@@ -1,5 +1,16 @@
 use Mix.Config
 
+config :event_app_spa, EventAppSpaWeb.Endpoint, env: "dev"
+
+# Configure your database
+config :event_app_spa, EventAppSpa.Repo,
+  username: "event_app_spa",
+  password: "VCvp2QUBEV8SCjN3",
+  database: "event_app_spa_dev",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

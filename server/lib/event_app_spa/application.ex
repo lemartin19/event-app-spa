@@ -7,6 +7,8 @@ defmodule EventAppSpa.Application do
 
   def start(_type, _args) do
     children = [
+      # Start the Ecto repository
+      EventAppSpa.Repo,
       # Start the Telemetry supervisor
       EventAppSpaWeb.Telemetry,
       # Start the PubSub system
