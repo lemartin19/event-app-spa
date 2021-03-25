@@ -14,8 +14,16 @@ alias EventAppSpa.Repo
 alias EventAppSpa.Users.User
 alias EventAppSpa.Events.Event
 
-lynnsey = Repo.insert!(%User{name: "lynnsey", email: "lynnsey@gmail.com"})
-Repo.insert!(%User{name: "ally", email: "ally@yahoo.com"})
+defmodule Inject do
+
+  def user(name, email, password) do
+    hash = Argon2.hash_pwd_salt(password)
+    Repo.insert!(%User{name: name, email: email, password_hash: hash})
+  end
+end
+
+lynnsey = Inject.user("lynnsey", "lynnsey@gmail.com", "exciting!BDAY")
+Inject.user("ally", "ally@yahoo.com", "4llyIsTheB3st")
 
 Repo.insert!(%Event{
   user_id: lynnsey.id,

@@ -2,7 +2,7 @@ defmodule EventAppSpaWeb.SessionController do
   use EventAppSpaWeb, :controller
 
   def create(conn, %{"email" => email, "password" => password}) do
-    user = EventAppSpaWeb.Users.authenticate(email, password)
+    user = EventAppSpa.Users.authenticate(email, password)
 
     if user do
       session = %{

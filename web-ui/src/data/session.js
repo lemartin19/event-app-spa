@@ -1,6 +1,7 @@
 'use es6';
 
 import { createReducer } from '@reduxjs/toolkit';
+import { API_BASE } from '../config';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -13,11 +14,13 @@ export const postLogin = ({ email, password }) =>
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((val) => console.log('not an error: ' + val))
+    .then((val) => {
+      console.log('not an error: ' + val);
+    })
     .catch((err) => console.log(err));
 
 export const sessionReducer = createReducer(null, {
-  [LOGIN]: (state, ({ payload }) => payload),
+  [LOGIN]: (state, { payload }) => payload,
   [LOGOUT]: () => null,
 });
 
