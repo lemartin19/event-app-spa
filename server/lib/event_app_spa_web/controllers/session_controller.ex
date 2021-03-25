@@ -18,7 +18,7 @@ defmodule EventAppSpaWeb.SessionController do
       )
       |> send_resp(
         :created,
-        Jason.encode!(%{session: session})
+        Jason.encode!(%{data: session})
       )
     else
       conn
