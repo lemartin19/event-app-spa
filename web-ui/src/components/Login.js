@@ -8,6 +8,7 @@ const Login = () => {
   const { email, setEmail, password, setPassword, onSubmit } = useLogin();
   return (
     <Container className="w-50">
+      <h2 className="my-4">User Login</h2>
       <Form onSubmit={onSubmit}>
         <Form.Label>Email</Form.Label>
         <Form.Control

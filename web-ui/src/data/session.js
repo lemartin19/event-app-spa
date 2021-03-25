@@ -6,7 +6,7 @@ import { API_BASE } from '../config';
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 
-export const postLogin = ({ email, password }) =>
+export const postLogin = (email, password) =>
   fetch(`${API_BASE}/session`, {
     method: 'POST',
     headers: {
@@ -14,9 +14,15 @@ export const postLogin = ({ email, password }) =>
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((val) => {
-      console.log('not an error: ' + val);
-    })
+    .then((response) => response.json())
+    .then(({ data }) => ({ type: LOGIN, payload: data }))
+    .catch((err) => console.log(err));
+
+export const postLogout = () =>
+  fetch(`${API_BASE}/session`, {
+    method: 'DELETE',
+  })
+    .then(() => ({ type: LOGOUT }))
     .catch((err) => console.log(err));
 
 export const sessionReducer = createReducer(null, {
