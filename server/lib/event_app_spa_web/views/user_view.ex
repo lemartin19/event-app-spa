@@ -1,6 +1,7 @@
 defmodule EventAppSpaWeb.UserView do
   use EventAppSpaWeb, :view
   alias EventAppSpaWeb.UserView
+  alias EventAppSpaWeb.ChangesetView
 
   def render("index.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}
@@ -15,6 +16,6 @@ defmodule EventAppSpaWeb.UserView do
   end
 
   def render("error.json", %{changeset: changeset}) do
-    %{errors: Enum.map(changeset.errors, fn {_, {message, _}} -> message end)}
+    render_one(changeset, ChangesetView, "error.json")
   end
 end

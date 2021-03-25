@@ -16,7 +16,8 @@ export const createUser = (username, email, password) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      throw new Error(response.errors);
+      const message = Object.values(response.errors).join('\n');
+      throw new Error(message);
     })
     .then(({ data }) => ({ type: CREATE_USER, payload: data }));
 

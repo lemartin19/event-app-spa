@@ -14,16 +14,12 @@ defmodule EventAppSpa.Users.User do
 
   @doc false
   def changeset(user, attrs) do
-    changeset =
-      user
-      |> cast(attrs, [:name, :email])
-      |> validate_password(attrs["password"])
-      |> add_password_hash(attrs["password"])
-      |> validate_required([:name, :email, :password_hash])
-      |> unique_constraint(:email)
-
-    IO.inspect(changeset)
-    changeset
+    user
+    |> cast(attrs, [:name, :email])
+    |> validate_password(attrs["password"])
+    |> add_password_hash(attrs["password"])
+    |> validate_required([:name, :email, :password_hash])
+    |> unique_constraint(:email)
   end
 
   def add_password_hash(changeset, nil) do
