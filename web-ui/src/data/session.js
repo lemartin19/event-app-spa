@@ -15,7 +15,7 @@ export const postLogin = (email, password) =>
     body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
-    .then(({ session }) => ({ type: LOGIN, payload: session }))
+    .then(({ data }) => ({ type: LOGIN, payload: data }))
     .catch((err) => console.log(err));
 
 export const postLogout = () =>

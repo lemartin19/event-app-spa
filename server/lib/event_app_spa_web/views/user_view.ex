@@ -13,4 +13,8 @@ defmodule EventAppSpaWeb.UserView do
   def render("user.json", %{user: user}) do
     %{id: user.id, name: user.name, email: user.email}
   end
+
+  def render("error.json", %{changeset: changeset}) do
+    %{errors: Enum.map(changeset.errors, fn {_, {message, _}} -> message end)}
+  end
 end
