@@ -1,14 +1,17 @@
 'use es6';
 
-import { useState, useEffect } from 'react';
-import { fetchEvents } from '../data/events';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchEvents, getEvents, getEventsAreLoaded } from '../data/events';
 
 export const useEventFeed = () => {
-  const [events, setEvents] = useState();
+  const eventsLoaded = useSelector(getEventsAreLoaded);
+  const events = useSelector(getEvents);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!events) fetchEvents().then(setEvents);
+    if (!eventsLoaded) fetchEvents().then(dispatch);
   }, [events]);
 
-  return { currentUser: true, events: events || [] };
+  return { currentUser: true, events };
 };
