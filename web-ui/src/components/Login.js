@@ -5,7 +5,14 @@ import { Container, Form, Button } from 'react-bootstrap';
 import { useLogin } from '../hooks/useLogin';
 
 const Login = () => {
-  const { email, setEmail, password, setPassword, onSubmit } = useLogin();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    onSubmit,
+    isLoading,
+  } = useLogin();
   return (
     <Container className="w-50">
       <h2 className="my-4">User Login</h2>
@@ -26,8 +33,8 @@ const Login = () => {
           value={password}
           className="mb-4"
         />
-        <Button variant="primary" type="submit">
-          Login
+        <Button variant="primary" type="submit" disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Login'}
         </Button>
       </Form>
     </Container>

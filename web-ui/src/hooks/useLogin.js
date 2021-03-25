@@ -8,6 +8,7 @@ import { postLogin } from '../data/session';
 export const useLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const { redirect } = useParams();
@@ -15,12 +16,16 @@ export const useLogin = () => {
   const onSubmit = useCallback(
     (event) => {
       event.preventDefault();
+      setIsLoading(true);
       postLogin(email, password)
         .then(dispatch)
-        .then(() => history.push(redirect || '/'));
+        .then(() => {
+          setIsLoading(false);
+          history.push(redirect || '/');
+        });
     },
     [email, password, dispatch, history]
   );
 
-  return { email, setEmail, password, setPassword, onSubmit };
+  return { email, setEmail, password, setPassword, onSubmit, isLoading };
 };
