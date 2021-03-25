@@ -15,7 +15,7 @@ export const postLogin = (email, password) =>
     body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
-    .then(({ data }) => ({ type: LOGIN, payload: data }))
+    .then(({ session }) => ({ type: LOGIN, payload: session }))
     .catch((err) => console.log(err));
 
 export const postLogout = () =>
@@ -31,3 +31,6 @@ export const sessionReducer = createReducer(null, {
 });
 
 export const getSession = (state) => state.session;
+export const getCurrentUserName = (state) =>
+  state.session && state.session.name;
+export const getSessionToken = (state) => state.session && state.session.token;
