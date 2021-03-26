@@ -3,14 +3,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { postLogout } from '../data/session';
 import { useNav } from '../hooks/useNav';
 
-const LoggedIn = () => {};
-LoggedIn.displayName = '';
-
 const Nav = () => {
-  const { name } = useNav();
+  const { name, handleLogout } = useNav();
   return (
     <div className="w-100 d-flex justify-content-between mt-2">
       <Link to="/" className="my-2">
@@ -19,7 +15,7 @@ const Nav = () => {
       {name ? (
         <div className="d-flex flex-column align-items-end">
           Logged in as: {name}
-          <Button variant="link" onClick={postLogout}>
+          <Button variant="link" onClick={handleLogout}>
             Logout
           </Button>
         </div>

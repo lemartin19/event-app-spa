@@ -3,7 +3,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { API_BASE } from '../config';
 
-const CREATE_USER = 'CREATE_USER';
+export const CREATE_USER = 'CREATE_USER';
 
 export const createUser = (username, email, password) =>
   fetch(`${API_BASE}/users`, {

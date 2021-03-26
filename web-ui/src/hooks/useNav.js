@@ -1,9 +1,13 @@
 'use es6';
 
-import { useSelector } from 'react-redux';
-import { getCurrentUserName } from '../data/session';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUserName, postLogout } from '../data/session';
 
 export const useNav = () => {
   const name = useSelector(getCurrentUserName);
-  return { name };
+
+  const dispatch = useDispatch();
+  const handleLogout = useCallback(() => dispatch(postLogout()), [dispatch]);
+  return { name, handleLogout };
 };

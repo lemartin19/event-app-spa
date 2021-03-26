@@ -15,9 +15,17 @@ defmodule EventAppSpaWeb.UserController do
     case Users.create_user(user_params) do
       {:ok, %User{} = user} ->
         conn
-        |> put_status(:created)
         |> put_resp_header("location", Routes.user_path(conn, :show, user))
-        |> render("show.json", user: user)
+        |> send_resp(
+          :created,
+          Jason.encode!(%{
+            data: %{
+              user_id: user.id,
+              name: user.name,
+              token: Phoenix.Token.sign(conn, "user_id", user.id)
+            }
+          })
+        )
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
