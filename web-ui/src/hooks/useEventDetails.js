@@ -6,7 +6,7 @@ import { useRequireAuth } from './useRequireAuth';
 
 export const useEventDetails = () => {
   const { id } = useParams();
-  const { event, owner, comments, error } = useEvent(id);
+  const { event, owner, comments, invites, error } = useEvent(id);
   useRequireAuth(`/events/${id}`);
-  return { event, owner, comments, error };
+  return { event, owner, comments, invites, error };
 };

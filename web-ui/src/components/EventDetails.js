@@ -8,6 +8,7 @@ import { useAdminControls } from '../hooks/useAdminControls';
 import MaybeError from './MaybeError';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
+import InviteList from './InviteList';
 
 const EventInfo = ({ name, date, description, hostedBy }) => (
   <div>
@@ -38,7 +39,7 @@ const AdminControls = () => {
 AdminControls.displayName = 'AdminControls';
 
 const EventDetails = () => {
-  const { event, owner, comments, error } = useEventDetails();
+  const { event, owner, comments, invites, error } = useEventDetails();
   return !event ? (
     <MaybeError error={error} />
   ) : (
@@ -46,6 +47,7 @@ const EventDetails = () => {
       <MaybeError error={error} />
       {event ? <EventInfo {...event} hostedBy={owner && owner.name} /> : null}
       {owner && event.user_id === owner.id ? <AdminControls /> : null}
+      <InviteList invites={invites} />
       <CommentList comments={comments} />
       <CommentForm />
     </Container>
