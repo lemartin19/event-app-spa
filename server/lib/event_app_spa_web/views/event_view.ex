@@ -2,6 +2,7 @@ defmodule EventAppSpaWeb.EventView do
   use EventAppSpaWeb, :view
   alias EventAppSpaWeb.EventView
   alias EventAppSpaWeb.UserView
+  alias EventAppSpaWeb.ChangesetView
 
   def render("index.json", %{events: events}) do
     %{data: render_many(events, EventView, "event.json")}
@@ -21,5 +22,9 @@ defmodule EventAppSpaWeb.EventView do
       date: event.date,
       owner: owner
     }
+  end
+
+  def render("error.json", %{changeset: changeset}) do
+    render_one(changeset, ChangesetView, "error.json")
   end
 end

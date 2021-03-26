@@ -11,13 +11,14 @@ export const fetchEvents = () =>
     .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }))
     .catch((err) => console.log(err));
 
-export const createEvent = (name, description, date) =>
+export const createEvent = (name, description, date, token) =>
   fetch(`${API_BASE}/events`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-auth': token,
     },
-    body: JSON.stringify({ name, description, date }),
+    body: JSON.stringify({ name, description, date, token }),
   })
     .then((response) => response.json())
     .then((response) => {

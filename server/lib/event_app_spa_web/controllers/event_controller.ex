@@ -6,17 +6,30 @@ defmodule EventAppSpaWeb.EventController do
 
   action_fallback EventAppSpaWeb.FallbackController
 
+  alias EventAppSpaWeb.Plugs
+  plug Plugs.RequireAuth when action in [:create]
+
   def index(conn, _params) do
     events = Events.list_events()
     render(conn, "index.json", events: events)
   end
 
-  def create(conn, %{"event" => event_params}) do
-    with {:ok, %Event{} = event} <- Events.create_event(event_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.event_path(conn, :show, event))
-      |> render("show.json", event: event)
+  def create(conn, event_params) do
+    user = conn.assigns[:current_user]
+    result = event_params |> Map.put("user_id", user.id) |> Events.create_event()
+    IO.inspect(result)
+
+    case result do
+      {:ok, %Event{} = event} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.event_path(conn, :show, event))
+        |> render("show.json", event: event)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:bad_request)
+        |> render("error.json", changeset: changeset)
     end
   end
 
