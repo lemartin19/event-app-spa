@@ -1,6 +1,7 @@
 'use es6';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datetime/css/react-datetime.css';
 import './index.css';
 
 import React from 'react';

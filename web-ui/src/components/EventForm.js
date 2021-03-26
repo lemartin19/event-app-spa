@@ -1,7 +1,7 @@
 'use es6';
 
 import React from 'react';
-import DateTimePicker from 'react-datetime-bootstrap';
+import Datetime from 'react-datetime';
 import { useEventForm } from '../hooks/useEventForm';
 import { Alert, Button, Form } from 'react-bootstrap';
 
@@ -10,7 +10,7 @@ const EventForm = () => {
   return (
     <React.Fragment>
       {event.error ? <Alert variant="danger">{event.error}</Alert> : null}
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} className="max-width-50p">
         <Form.Label>Name</Form.Label>
         <Form.Control
           name="name"
@@ -21,18 +21,18 @@ const EventForm = () => {
           required
         />
         <Form.Label>Date</Form.Label>
-        <DateTimePicker
-          id="event-date"
+        <Datetime
           value={event.date}
-          onChange={({ target }) => setField('date', target.value)}
-          format="YYYY-MM-DD hh:mm"
-          className="mb-4"
+          onChange={(value) => setField('date', value)}
+          dateFormat="YYYY-MM-DD"
+          timeFormat="HH:mm:SS"
+          className="mb-4 max-width-300"
+          input={false}
         />
-        <Form.Control name="date" type="date" required />
         <Form.Label>Description</Form.Label>
         <Form.Control
           name="description"
-          type="text"
+          as="textarea"
           onChange={({ target }) => setField('description', target.value)}
           value={event.description}
           className="mb-4"
