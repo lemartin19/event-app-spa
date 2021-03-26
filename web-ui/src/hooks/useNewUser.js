@@ -2,8 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { createUser } from '../data/users';
+import { useQueryParams } from './useQueryParams';
 
 const calculatePasswordErrors = (password1, password2) => {
   if (password1.length < 8)
@@ -23,7 +24,7 @@ export const useNewUser = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const { redirect } = useParams();
+  const { redirect } = useQueryParams();
   const history = useHistory();
 
   const setField = useCallback(

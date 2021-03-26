@@ -2,15 +2,16 @@
 
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { postLogin } from '../data/session';
+import { useQueryParams } from './useQueryParams';
 
 export const useLogin = () => {
   const [login, setLogin] = useState({ email: '', password: '', error: null });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { redirect } = useParams();
+  const { redirect } = useQueryParams();
 
   const setField = useCallback((field, value) => {
     setLogin((state) => Object.assign({}, state, { [field]: value }));
