@@ -4,6 +4,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { API_BASE } from '../config';
 
 const FETCH_EVENTS = 'FETCH_EVENTS';
+const CREATE_EVENT = 'CREATE_EVENT';
 
 export const fetchEvents = () =>
   fetch(`${API_BASE}/events`)
@@ -26,7 +27,7 @@ export const createEvent = (name, description, date, token) =>
       const message = Object.values(response.errors).join('\n');
       throw new Error(message);
     })
-    .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }));
+    .then(({ data }) => ({ type: CREATE_EVENT, payload: data }));
 
 export const eventsReducer = createReducer(
   { data: {}, isLoaded: false },
@@ -38,6 +39,10 @@ export const eventsReducer = createReducer(
       });
       return { data: Object.assign({}, data, events), isLoaded: true };
     },
+    [CREATE_EVENT]: ({ data }, { payload }) => ({
+      data: Object.assign({}, data, { [payload.id]: payload }),
+      isLoaded: true,
+    }),
   }
 );
 

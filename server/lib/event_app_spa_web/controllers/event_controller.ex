@@ -17,8 +17,6 @@ defmodule EventAppSpaWeb.EventController do
   def create(conn, event_params) do
     user = conn.assigns[:current_user]
     result = event_params |> Map.put("user_id", user.id) |> Events.create_event()
-    IO.inspect(result)
-
     case result do
       {:ok, %Event{} = event} ->
         conn
