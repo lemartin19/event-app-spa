@@ -1,6 +1,7 @@
 'use es6';
 
 import React from 'react';
+import moment from 'moment';
 import Datetime from 'react-datetime';
 import { useEventForm } from '../hooks/useEventForm';
 import { Alert, Button, Form } from 'react-bootstrap';
@@ -27,7 +28,11 @@ const EventForm = () => {
           dateFormat="YYYY-MM-DD"
           timeFormat="HH:mm:SS"
           className="mb-4 max-width-300"
-          input={false}
+          inputProps={{
+            value: event.date
+              ? moment(event.date).format('MMMM D, YYYY @ h:mm a')
+              : '',
+          }}
         />
         <Form.Label>Description</Form.Label>
         <Form.Control

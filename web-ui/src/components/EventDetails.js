@@ -1,6 +1,7 @@
 'use es6';
 
 import React from 'react';
+import moment from 'moment';
 import { Alert, Container } from 'react-bootstrap';
 import { useEventDetails } from '../hooks/useEventDetails';
 
@@ -16,7 +17,10 @@ const EventDetails = () => {
     <Container>
       <MaybeError error={error} />
       <h2>{event.name}</h2>
-      <h6>Hosted by: {owner && owner.name}</h6>
+      <h5>Hosted by: {owner && owner.name}</h5>
+      <div className="my-4">
+        {moment(event.date).format('MMMM D, YYYY @ h:mm a')}
+      </div>
       <div className="my-4">{event.description}</div>
     </Container>
   );
