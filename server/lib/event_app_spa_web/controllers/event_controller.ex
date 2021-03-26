@@ -3,14 +3,20 @@ defmodule EventAppSpaWeb.EventController do
 
   alias EventAppSpa.Events
   alias EventAppSpa.Events.Event
+  alias EventAppSpaWeb.Helpers
 
   action_fallback EventAppSpaWeb.FallbackController
 
   alias EventAppSpaWeb.Plugs
-  plug Plugs.RequireAuth when action in [:create]
+  plug Plugs.RequireAuth
 
   def index(conn, _params) do
-    events = Events.list_events()
+    current_user = conn.assigns[:current_user]
+
+    events =
+      Events.list_events()
+      |> Enum.filter(fn event -> Helpers.is_event_owner_or_invitee?(current_user.id, event.id) end)
+
     render(conn, "index.json", events: events)
   end
 

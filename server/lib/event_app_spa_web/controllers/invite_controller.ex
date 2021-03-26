@@ -6,12 +6,14 @@ defmodule EventAppSpaWeb.InviteController do
 
   action_fallback EventAppSpaWeb.FallbackController
 
-  def index(conn, _params) do
-    invites = Invites.list_invites()
+  def index(conn, %{"eventId" => event_id}) do
+    # require user to be owner or invited to event
+    invites = Invites.list_invites(event_id)
     render(conn, "index.json", invites: invites)
   end
 
   def create(conn, %{"invite" => invite_params}) do
+    # require user to be event owner
     with {:ok, %Invite{} = invite} <- Invites.create_invite(invite_params) do
       conn
       |> put_status(:created)

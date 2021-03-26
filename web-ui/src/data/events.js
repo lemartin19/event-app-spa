@@ -7,8 +7,10 @@ const FETCH_EVENTS = 'FETCH_EVENTS';
 const FETCH_EVENT = 'FETCH_EVENT';
 const CREATE_EVENT = 'CREATE_EVENT';
 
-export const fetchEvents = () =>
-  fetch(`${API_BASE}/events`)
+export const fetchEvents = (token) =>
+  fetch(`${API_BASE}/events`, {
+    headers: { 'x-auth': token },
+  })
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;

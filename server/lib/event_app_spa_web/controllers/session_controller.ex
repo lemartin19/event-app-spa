@@ -29,7 +29,7 @@ defmodule EventAppSpaWeb.SessionController do
       )
       |> send_resp(
         :unauthorized,
-        Jason.encode!(%{error: "fail"})
+        Jason.encode!(%{errors: "fail"})
       )
     end
   end

@@ -17,8 +17,13 @@ defmodule EventAppSpa.Invites do
       [%Invite{}, ...]
 
   """
-  def list_invites do
-    Repo.all(Invite)
+  def list_invites(event_id) do
+    invite_query =
+      from(i in Invite,
+        where: i.event_id == ^event_id
+      )
+
+    Repo.all(invite_query)
   end
 
   @doc """
