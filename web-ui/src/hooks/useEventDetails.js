@@ -5,6 +5,6 @@ import { useEvent } from '../hooks/useEvent';
 
 export const useEventDetails = () => {
   const { id } = useParams();
-  const { event, owner, error } = useEvent(id);
-  return { event, owner, error };
+  const { event, owner, comments, error } = useEvent(id);
+  return { event, owner, comments, error };
 };

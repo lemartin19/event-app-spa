@@ -6,6 +6,17 @@ import { Button, Container } from 'react-bootstrap';
 import { useEventDetails } from '../hooks/useEventDetails';
 import { useAdminControls } from '../hooks/useAdminControls';
 import MaybeError from './MaybeError';
+import CommentList from './CommentList';
+
+const EventInfo = ({ name, date, description, hostedBy }) => (
+  <div>
+    <h2>{name}</h2>
+    <h5>Hosted by: {hostedBy}</h5>
+    <div className="my-4">{moment(date).format('MMMM D, YYYY @ h:mm a')}</div>
+    <div className="my-4">{description}</div>
+  </div>
+);
+EventInfo.displayName = 'EventInfo';
 
 const AdminControls = () => {
   const { onEdit, onDelete, error } = useAdminControls();
@@ -26,19 +37,15 @@ const AdminControls = () => {
 AdminControls.displayName = 'AdminControls';
 
 const EventDetails = () => {
-  const { event, owner, error } = useEventDetails();
+  const { event, owner, comments, error } = useEventDetails();
   return !event ? (
     <MaybeError error={error} />
   ) : (
     <Container>
       <MaybeError error={error} />
-      <h2>{event.name}</h2>
-      <h5>Hosted by: {owner && owner.name}</h5>
-      <div className="my-4">
-        {moment(event.date).format('MMMM D, YYYY @ h:mm a')}
-      </div>
-      <div className="my-4">{event.description}</div>
+      {event ? <EventInfo {...event} hostedBy={owner && owner.name} /> : null}
       {owner && event.user_id === owner.id ? <AdminControls /> : null}
+      <CommentList comments={comments} />
     </Container>
   );
 };

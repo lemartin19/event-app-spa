@@ -15,7 +15,7 @@ defmodule EventAppSpaWeb.UserController do
     case Users.create_user(user_params) do
       {:ok, %User{} = user} ->
         session = %{
-          user_id: user.id,
+          id: user.id,
           name: user.name,
           email: user.email,
           token: Phoenix.Token.sign(conn, "user_id", user.id)

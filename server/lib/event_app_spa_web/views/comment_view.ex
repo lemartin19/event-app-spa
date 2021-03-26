@@ -6,12 +6,14 @@ defmodule EventAppSpaWeb.CommentView do
     %{data: render_many(comments, CommentView, "comment.json")}
   end
 
-  def render("show.json", %{comment: comment}) do
-    %{data: render_one(comment, CommentView, "comment.json")}
-  end
-
   def render("comment.json", %{comment: comment}) do
-    %{id: comment.id, body: comment.body, user_id: comment.user_id}
+    %{
+      id: comment.id,
+      body: comment.body,
+      event_id: comment.event_id,
+      user_id: comment.user_id,
+      inserted_at: comment.inserted_at
+    }
   end
 
   def render("error.json", %{changeset: changeset}) do

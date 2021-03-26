@@ -5,6 +5,7 @@ import { API_BASE } from '../config';
 
 const FETCH_COMMENTS = 'FETCH_COMMENTS';
 const CREATE_COMMENT = 'CREATE_COMMENT';
+const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export const fetchComments = (eventId, token) =>
   fetch(`${API_BASE}/comments/${eventId}`, {
@@ -32,6 +33,18 @@ export const createComment = ({ eventId, body }, token) =>
     })
     .then(({ data }) => ({ type: CREATE_COMMENT, payload: data }));
 
+export const deleteComment = (id, token) =>
+  fetch(`${API_BASE}/comments/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-auth': token },
+  })
+    .then((response) => {
+      if (response.ok) return response;
+      const message = Object.values(response.errors).join('\n');
+      throw new Error(message);
+    })
+    .then(() => ({ type: DELETE_COMMENT, payload: { id } }));
+
 export const commentsReducer = createReducer(
   {},
   {
@@ -42,6 +55,13 @@ export const commentsReducer = createReducer(
       return Object.assign({}, state, {
         [payload.event_id]: [...prevComments, payload],
       });
+    },
+    [DELETE_COMMENT]: (state, { payload }) => {
+      const newComments = {};
+      Object.keys(state).forEach((key) => {
+        newComments[key] = state[key].filter(({ id }) => id !== payload.id);
+      });
+      return newComments;
     },
   }
 );
