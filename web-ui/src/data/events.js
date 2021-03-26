@@ -7,6 +7,7 @@ const FETCH_EVENTS = 'FETCH_EVENTS';
 const FETCH_EVENT = 'FETCH_EVENT';
 const CREATE_EVENT = 'CREATE_EVENT';
 const UPDATE_EVENT = 'UPDATE_EVENT';
+const DELETE_EVENT = 'DELETE_EVENT';
 
 export const fetchEvents = (token) =>
   fetch(`${API_BASE}/events`, {
@@ -66,6 +67,19 @@ export const updateEvent = ({ id, name, description, date }, token) =>
     })
     .then(({ data }) => ({ type: UPDATE_EVENT, payload: data }));
 
+export const deleteEvent = (id, token) =>
+  fetch(`${API_BASE}/events/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-auth': token },
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.data) return response;
+      const message = Object.values(response.errors).join('\n');
+      throw new Error(message);
+    })
+    .then(() => ({ type: DELETE_EVENT, payload: { id } }));
+
 export const eventsReducer = createReducer(
   { data: {}, isLoaded: false },
   {
@@ -86,6 +100,10 @@ export const eventsReducer = createReducer(
     }),
     [UPDATE_EVENT]: ({ data, isLoaded }, { payload }) => ({
       data: Object.assign({}, data, { [payload.id]: payload }),
+      isLoaded,
+    }),
+    [DELETE_EVENT]: ({ data, isLoaded }, { payload }) => ({
+      data: Object.assign({}, data, { [payload.id]: null }),
       isLoaded,
     }),
   }

@@ -2,9 +2,28 @@
 
 import React from 'react';
 import moment from 'moment';
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { useEventDetails } from '../hooks/useEventDetails';
+import { useAdminControls } from '../hooks/useAdminControls';
 import MaybeError from './MaybeError';
+
+const AdminControls = () => {
+  const { onEdit, onDelete, error } = useAdminControls();
+  return (
+    <div>
+      <MaybeError error={error} />
+      <div>
+        <Button variant="primary" size="sm" onClick={onEdit} className="mr-2">
+          Edit
+        </Button>
+        <Button variant="outline-danger" size="sm" onClick={onDelete}>
+          Delete
+        </Button>
+      </div>
+    </div>
+  );
+};
+AdminControls.displayName = 'AdminControls';
 
 const EventDetails = () => {
   const { event, owner, error } = useEventDetails();
@@ -19,6 +38,7 @@ const EventDetails = () => {
         {moment(event.date).format('MMMM D, YYYY @ h:mm a')}
       </div>
       <div className="my-4">{event.description}</div>
+      {owner && event.user_id === owner.id ? <AdminControls /> : null}
     </Container>
   );
 };
