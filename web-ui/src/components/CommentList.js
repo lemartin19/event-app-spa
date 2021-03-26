@@ -1,6 +1,7 @@
 'use es6';
 
 import React from 'react';
+import moment from 'moment';
 import { Button, Card } from 'react-bootstrap';
 import { useComment } from '../hooks/useComment';
 
@@ -31,7 +32,13 @@ const CommentList = ({ comments }) => (
   <div className="my-4">
     <h4>Comments</h4>
     {comments
-      ? comments.map((comment, idx) => <Comment comment={comment} key={idx} />)
+      ? [...comments]
+          .sort(
+            (a, b) =>
+              moment(a.inserted_at).format('YYYYMMDDHHmmSS') -
+              moment(b.inserted_at).format('YYYYMMDDHHmmSS')
+          )
+          .map((comment, idx) => <Comment comment={comment} key={idx} />)
       : null}
   </div>
 );
