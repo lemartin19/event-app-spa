@@ -1,8 +1,9 @@
 'use es6';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { LOCAL_STORAGE_REDIRECT } from '../config';
 import { postLogin } from '../data/session';
 import { useQueryParams } from './useQueryParams';
 
@@ -11,11 +12,17 @@ export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { redirect } = useQueryParams();
+  const { error } = useQueryParams();
 
   const setField = useCallback((field, value) => {
     setLogin((state) => Object.assign({}, state, { [field]: value }));
   }, []);
+
+  useEffect(() => {
+    if (error === 'unauthorized') {
+      setField('error', 'You must be logged in to do that.');
+    }
+  }, [error]);
 
   const onSubmit = useCallback(
     (event) => {
@@ -25,7 +32,12 @@ export const useLogin = () => {
         .then(dispatch)
         .then(() => {
           setIsLoading(false);
-          history.push(redirect || '/');
+          try {
+            const redirect = localStorage.getItem(LOCAL_STORAGE_REDIRECT);
+            history.push(redirect || '/');
+          } catch (error) {
+            history.push('/');
+          }
         })
         .catch(({ message }) => {
           setIsLoading(false);

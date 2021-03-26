@@ -5,12 +5,14 @@ import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { updateEvent } from '../data/events';
 import { useEvent } from '../hooks/useEvent';
+import { useRequireAuth } from '../hooks/useRequireAuth';
 import EventForm from './EventForm';
 import MaybeError from './MaybeError';
 
 const EditEvent = () => {
   const { id } = useParams();
   const { event, error } = useEvent(id);
+  useRequireAuth(`/events/${id}/edit`);
   return (
     <Container>
       <h2 className="my-4">Edit event</h2>
