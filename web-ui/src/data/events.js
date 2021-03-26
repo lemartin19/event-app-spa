@@ -11,6 +11,22 @@ export const fetchEvents = () =>
     .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }))
     .catch((err) => console.log(err));
 
+export const createEvent = (name, description, date) =>
+  fetch(`${API_BASE}/events`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, description, date }),
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.data) return response;
+      const message = Object.values(response.errors).join('\n');
+      throw new Error(message);
+    })
+    .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }));
+
 export const eventsReducer = createReducer(
   { data: {}, isLoaded: false },
   {
