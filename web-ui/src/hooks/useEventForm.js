@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { createEvent } from '../data/events';
 
-export const useNewEvent = () => {
+export const useEventForm = () => {
   const dispatch = useDispatch();
   const [event, setEvent] = useState({
     name: '',

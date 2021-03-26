@@ -24,12 +24,12 @@ const Event = ({ event }) => {
 Event.displayName = 'Event';
 
 const EventFeed = () => {
-  const { currentUser, events } = useEventFeed();
+  const { isLoggedIn, events } = useEventFeed();
 
   return (
     <div>
       <h2 className="my-4">Event Feed</h2>
-      {currentUser ? (
+      {isLoggedIn ? (
         <React.Fragment>
           <div className="row mb-4">
             <div className="col">
