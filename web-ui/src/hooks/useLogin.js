@@ -6,26 +6,33 @@ import { useHistory, useParams } from 'react-router-dom';
 import { postLogin } from '../data/session';
 
 export const useLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [login, setLogin] = useState({ email: '', password: '', error: null });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const { redirect } = useParams();
 
+  const setField = useCallback((field, value) => {
+    setLogin((state) => Object.assign({}, state, { [field]: value }));
+  }, []);
+
   const onSubmit = useCallback(
     (event) => {
       event.preventDefault();
       setIsLoading(true);
-      postLogin(email, password)
+      postLogin(login.email, login.password)
         .then(dispatch)
         .then(() => {
           setIsLoading(false);
           history.push(redirect || '/');
+        })
+        .catch(({ message }) => {
+          setIsLoading(false);
+          setField('error', message);
         });
     },
-    [email, password, dispatch, history]
+    [login.email, login.password, dispatch, history]
   );
 
-  return { email, setEmail, password, setPassword, onSubmit, isLoading };
+  return { login, setField, onSubmit, isLoading };
 };

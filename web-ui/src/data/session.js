@@ -15,15 +15,16 @@ export const postLogin = (email, password) =>
     body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
-    .then(({ data }) => ({ type: LOGIN, payload: data }))
-    .catch((err) => console.log(err));
+    .then((response) => {
+      if (response.data) return response;
+      throw new Error('Login failed.');
+    })
+    .then(({ data }) => ({ type: LOGIN, payload: data }));
 
 export const postLogout = () =>
   fetch(`${API_BASE}/session`, {
     method: 'DELETE',
-  })
-    .then(() => ({ type: LOGOUT }))
-    .catch((err) => console.log(err));
+  }).then(() => ({ type: LOGOUT }));
 
 export const sessionReducer = createReducer(null, {
   [LOGIN]: (state, { payload }) => payload,
