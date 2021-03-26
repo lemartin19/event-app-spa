@@ -10,6 +10,7 @@ import NewEvent from './NewEvent';
 import UserDetails from './UserDetails';
 import NewUser from './NewUser';
 import Login from './Login';
+import EditEvent from './EditEvent';
 
 const App = () => (
   <Container className="App">
@@ -18,6 +19,9 @@ const App = () => (
       <Switch>
         <Route path="/events/new">
           <NewEvent />
+        </Route>
+        <Route path="/events/:id/edit">
+          <EditEvent />
         </Route>
         <Route path="/events/:id">
           <EventDetails />

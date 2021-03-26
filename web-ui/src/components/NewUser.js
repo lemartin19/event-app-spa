@@ -1,8 +1,9 @@
 'use es6';
 
 import React from 'react';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 import { useNewUser } from '../hooks/useNewUser';
+import MaybeError from './MaybeError';
 
 const NewUser = () => {
   const { user, setField, onSubmit, isLoading } = useNewUser();
@@ -10,7 +11,7 @@ const NewUser = () => {
   return (
     <Container>
       <h2 className="my-4">Create new user</h2>
-      {user.error ? <Alert variant="danger">{user.error}</Alert> : null}
+      <MaybeError error={user.error} />
       <Form onSubmit={onSubmit}>
         <Form.Label>Name</Form.Label>
         <Form.Control

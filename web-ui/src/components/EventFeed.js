@@ -1,10 +1,11 @@
 'use es6';
 
 import React from 'react';
-import { Alert, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEvent } from '../hooks/useEvent';
 import { useEventFeed } from '../hooks/useEventFeed';
+import MaybeError from './MaybeError';
 
 const Event = ({ eventId }) => {
   const { event, owner, error } = useEvent(eventId);
@@ -13,7 +14,7 @@ const Event = ({ eventId }) => {
       <Card className="h-100">
         <Card.Body>
           {error ? (
-            <Alert variant="danger">{error} </Alert>
+            <MaybeError error={error} />
           ) : (
             <React.Fragment>
               <Card.Title>{event.name}</Card.Title>

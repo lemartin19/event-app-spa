@@ -1,15 +1,16 @@
 'use es6';
 
 import React from 'react';
-import { Alert, Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 import { useLogin } from '../hooks/useLogin';
+import MaybeError from './MaybeError';
 
 const Login = () => {
   const { login, setField, onSubmit, isLoading } = useLogin();
   return (
     <Container className="w-50">
       <h2 className="my-4">User Login</h2>
-      {login.error ? <Alert variant="danger">{login.error}</Alert> : null}
+      <MaybeError error={login.error} />
       <Form onSubmit={onSubmit}>
         <Form.Label>Email</Form.Label>
         <Form.Control

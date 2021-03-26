@@ -57,11 +57,13 @@ defmodule EventAppSpaWeb.EventController do
     end
   end
 
-  def update(conn, %{"id" => id, "event" => event_params}) do
-    event = Events.get_event!(id)
+  def update(conn, event_params) do
+    event = Events.get_event!(event_params["id"])
     current_user = conn.assigns[:current_user]
 
-    if Helpers.is_event_owner?(current_user.id, id) do
+    IO.inspect(event_params)
+
+    if Helpers.is_event_owner?(current_user.id, event_params["id"]) do
       case Events.update_event(event, event_params) do
         {:ok, %Event{} = event} ->
           render(conn, "show.json", event: event)

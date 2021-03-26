@@ -4,13 +4,17 @@ import React from 'react';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 import { useEventForm } from '../hooks/useEventForm';
-import { Alert, Button, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+import MaybeError from './MaybeError';
 
-const EventForm = () => {
-  const { event, setField, onSubmit, isLoading } = useEventForm();
+const EventForm = ({ saveFn, initEvent }) => {
+  const { event, setField, onSubmit, isLoading } = useEventForm(
+    saveFn,
+    initEvent
+  );
   return (
     <React.Fragment>
-      {event.error ? <Alert variant="danger">{event.error}</Alert> : null}
+      <MaybeError error={event.error} />
       <Form onSubmit={onSubmit} className="max-width-50p">
         <Form.Label>Name</Form.Label>
         <Form.Control

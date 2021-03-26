@@ -2,12 +2,9 @@
 
 import React from 'react';
 import moment from 'moment';
-import { Alert, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useEventDetails } from '../hooks/useEventDetails';
-
-const MaybeError = ({ error }) =>
-  !error ? null : <Alert variant="danger">{error}</Alert>;
-MaybeError.displayName = 'MaybeError';
+import MaybeError from './MaybeError';
 
 const EventDetails = () => {
   const { event, owner, error } = useEventDetails();

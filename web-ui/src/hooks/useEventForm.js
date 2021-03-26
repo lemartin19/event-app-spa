@@ -3,10 +3,9 @@
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { createEvent } from '../data/events';
 import { getSessionToken } from '../data/session';
 
-export const useEventForm = () => {
+export const useEventForm = (saveFn, initEvent = {}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [event, setEvent] = useState({
@@ -14,6 +13,7 @@ export const useEventForm = () => {
     description: '',
     date: '',
     error: null,
+    ...initEvent,
   });
   const [isLoading, setIsLoading] = useState();
   const token = useSelector(getSessionToken);
@@ -28,7 +28,7 @@ export const useEventForm = () => {
     (submitEvent) => {
       submitEvent.preventDefault();
       setIsLoading(true);
-      createEvent(event.name, event.description, event.date, token)
+      saveFn(event, token)
         .then((action) => {
           setIsLoading(false);
           history.push(`/events/${action.payload.id}`);
