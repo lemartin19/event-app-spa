@@ -17,7 +17,7 @@ const EditEvent = () => {
       {!event || error ? (
         <MaybeError error={error} />
       ) : (
-        <EventForm initEvent={event} saveFn={updateEvent} />
+        <EventForm type="Edit" initEvent={event} saveFn={updateEvent} />
       )}
     </Container>
   );

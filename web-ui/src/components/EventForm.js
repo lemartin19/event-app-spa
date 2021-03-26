@@ -7,7 +7,7 @@ import { useEventForm } from '../hooks/useEventForm';
 import { Button, Form } from 'react-bootstrap';
 import MaybeError from './MaybeError';
 
-const EventForm = ({ saveFn, initEvent }) => {
+const EventForm = ({ type = 'Create', saveFn, initEvent }) => {
   const { event, setField, onSubmit, isLoading } = useEventForm(
     saveFn,
     initEvent
@@ -48,7 +48,7 @@ const EventForm = ({ saveFn, initEvent }) => {
           required
         />
         <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Create event'}
+          {isLoading ? 'Loading...' : `${type} event`}
         </Button>
       </Form>
     </React.Fragment>

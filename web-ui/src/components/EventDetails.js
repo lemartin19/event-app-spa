@@ -7,6 +7,7 @@ import { useEventDetails } from '../hooks/useEventDetails';
 import { useAdminControls } from '../hooks/useAdminControls';
 import MaybeError from './MaybeError';
 import CommentList from './CommentList';
+import CommentForm from './CommentForm';
 
 const EventInfo = ({ name, date, description, hostedBy }) => (
   <div>
@@ -46,6 +47,7 @@ const EventDetails = () => {
       {event ? <EventInfo {...event} hostedBy={owner && owner.name} /> : null}
       {owner && event.user_id === owner.id ? <AdminControls /> : null}
       <CommentList comments={comments} />
+      <CommentForm />
     </Container>
   );
 };

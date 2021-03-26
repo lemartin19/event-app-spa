@@ -22,8 +22,11 @@ export const fetchComments = (eventId, token) =>
 export const createComment = ({ eventId, body }, token) =>
   fetch(`${API_BASE}/comments`, {
     method: 'POST',
-    headers: { 'x-auth': token },
-    body: JSON.stringify({ eventId, body }),
+    headers: {
+      'Content-Type': 'application/json',
+      'x-auth': token,
+    },
+    body: JSON.stringify({ event_id: eventId, body }),
   })
     .then((response) => response.json())
     .then((response) => {
