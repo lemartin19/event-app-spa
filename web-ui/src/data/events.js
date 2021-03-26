@@ -65,6 +65,6 @@ export const eventsReducer = createReducer(
   }
 );
 
-export const getEvents = (state) => Object.values(state.events.data);
+export const getEvents = (state) => state.events.data;
 export const getEventsAreLoaded = (state) => state.events.isLoaded;
-export const getEvent = (state, id) => state.events[id];
+export const getEvent = (state, id) => state.events.data[id];

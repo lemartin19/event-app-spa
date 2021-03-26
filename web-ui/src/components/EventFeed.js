@@ -1,21 +1,29 @@
 'use es6';
 
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Alert, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useEvent } from '../hooks/useEvent';
 import { useEventFeed } from '../hooks/useEventFeed';
 
-const Event = ({ event }) => {
-  return (
+const Event = ({ eventId }) => {
+  const { event, owner, error } = useEvent(eventId);
+  return !event ? null : (
     <div className="col-sm-4 p-2">
       <Card className="h-100">
         <Card.Body>
-          <Card.Title>{event.name}</Card.Title>
-          <Card.Subtitle className="text-muted mb-2">
-            Hosted by: {event.owner.name}
-          </Card.Subtitle>
-          <Card.Text>{event.description}</Card.Text>
-          <Link to={`/events/${event.id}`}>Show Event</Link>
+          {error ? (
+            <Alert variant="danger">{error} </Alert>
+          ) : (
+            <React.Fragment>
+              <Card.Title>{event.name}</Card.Title>
+              <Card.Subtitle className="text-muted mb-2">
+                Hosted by: {!owner ? '' : owner.name}
+              </Card.Subtitle>
+              <Card.Text>{event.description}</Card.Text>
+              <Link to={`/events/${event.id}`}>Show Event</Link>
+            </React.Fragment>
+          )}
         </Card.Body>
       </Card>
     </div>
@@ -24,7 +32,7 @@ const Event = ({ event }) => {
 Event.displayName = 'Event';
 
 const EventFeed = () => {
-  const { isLoggedIn, events } = useEventFeed();
+  const { isLoggedIn, eventIds } = useEventFeed();
 
   return (
     <div>
@@ -37,9 +45,9 @@ const EventFeed = () => {
             </div>
           </div>
           <div className="d-flex flex-wrap">
-            {!events.length
+            {!eventIds.length
               ? 'No events to display'
-              : events.map((event) => <Event event={event} key={event.id} />)}
+              : eventIds.map((id) => <Event eventId={id} key={id} />)}
           </div>
         </React.Fragment>
       ) : (

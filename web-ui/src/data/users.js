@@ -44,18 +44,26 @@ export const createUser = (username, email, password) =>
     .then(({ data }) => ({ type: CREATE_USER, payload: data }));
 
 export const userReducer = createReducer(
-  {},
+  { data: {}, isLoaded: false },
   {
     [FETCH_USERS]: (state, { payload }) => {
       const users = {};
       payload.forEach((user) => {
         users[user.id] = user;
       });
-      return users;
+      return { data: users, isLoaded: true };
     },
-    [FETCH_USER]: (state, { payload }) =>
-      Object.assign({}, state, { [payload.id]: payload }),
-    [CREATE_USER]: (state, { payload }) =>
-      Object.assign({}, state, { [payload.id]: payload }),
+    [FETCH_USER]: ({ data, isLoaded }, { payload }) => ({
+      data: Object.assign({}, data, { [payload.id]: payload }),
+      isLoaded,
+    }),
+    [CREATE_USER]: ({ data, isLoaded }, { payload }) => ({
+      data: Object.assign({}, data, { [payload.id]: payload }),
+      isLoaded,
+    }),
   }
 );
+
+export const getUsers = (state) => state.users.data;
+export const getUsersAreLoaded = (state) => state.users.isLoaded;
+export const getUser = (state, id) => (id ? state.users.data[id] : null);
