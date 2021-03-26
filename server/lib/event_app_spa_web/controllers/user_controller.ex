@@ -14,18 +14,16 @@ defmodule EventAppSpaWeb.UserController do
   def create(conn, user_params) do
     case Users.create_user(user_params) do
       {:ok, %User{} = user} ->
+        session = %{
+          user_id: user.id,
+          name: user.name,
+          email: user.email,
+          token: Phoenix.Token.sign(conn, "user_id", user.id)
+        }
+
         conn
         |> put_resp_header("location", Routes.user_path(conn, :show, user))
-        |> send_resp(
-          :created,
-          Jason.encode!(%{
-            data: %{
-              user_id: user.id,
-              name: user.name,
-              token: Phoenix.Token.sign(conn, "user_id", user.id)
-            }
-          })
-        )
+        |> send_resp(:created, Jason.encode!(%{data: session}))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

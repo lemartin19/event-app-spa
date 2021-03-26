@@ -8,6 +8,7 @@ defmodule EventAppSpaWeb.SessionController do
       session = %{
         user_id: user.id,
         name: user.name,
+        email: user.email,
         token: Phoenix.Token.sign(conn, "user_id", user.id)
       }
 

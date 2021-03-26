@@ -4,13 +4,28 @@ import { createReducer } from '@reduxjs/toolkit';
 import { API_BASE } from '../config';
 
 const FETCH_EVENTS = 'FETCH_EVENTS';
+const FETCH_EVENT = 'FETCH_EVENT';
 const CREATE_EVENT = 'CREATE_EVENT';
 
 export const fetchEvents = () =>
   fetch(`${API_BASE}/events`)
     .then((response) => response.json())
-    .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }))
-    .catch((err) => console.log(err));
+    .then((response) => {
+      if (response.data) return response;
+      const message = Object.values(response.errors).join('\n');
+      throw new Error(message);
+    })
+    .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }));
+
+export const fetchEvent = (id) =>
+  fetch(`${API_BASE}/events/${id}`)
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.data) return response;
+      const message = Object.values(response.errors).join('\n');
+      throw new Error(message);
+    })
+    .then(({ data }) => ({ type: FETCH_EVENT, payload: data }));
 
 export const createEvent = (name, description, date, token) =>
   fetch(`${API_BASE}/events`, {
@@ -32,19 +47,24 @@ export const createEvent = (name, description, date, token) =>
 export const eventsReducer = createReducer(
   { data: {}, isLoaded: false },
   {
-    [FETCH_EVENTS]: ({ data }, { payload }) => {
+    [FETCH_EVENTS]: (state, { payload }) => {
       const events = {};
       payload.forEach((event) => {
         events[event.id] = event;
       });
-      return { data: Object.assign({}, data, events), isLoaded: true };
+      return { data: events, isLoaded: true };
     },
-    [CREATE_EVENT]: ({ data }, { payload }) => ({
+    [FETCH_EVENT]: ({ data, isLoaded }, { payload }) => ({
       data: Object.assign({}, data, { [payload.id]: payload }),
-      isLoaded: true,
+      isLoaded,
+    }),
+    [CREATE_EVENT]: ({ data, isLoaded }, { payload }) => ({
+      data: Object.assign({}, data, { [payload.id]: payload }),
+      isLoaded,
     }),
   }
 );
 
 export const getEvents = (state) => Object.values(state.events.data);
 export const getEventsAreLoaded = (state) => state.events.isLoaded;
+export const getEvent = (state, id) => state.events[id];
