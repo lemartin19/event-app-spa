@@ -20,13 +20,17 @@ export const useEventForm = () => {
     []
   );
 
-  const onSubmit = useCallback(() => {
-    setIsLoading(true);
-    createEvent(event.name, event.description, event.date)
-      .then(dispatch)
-      .catch(({ message }) => setField('error', message))
-      .finally(() => setIsLoading(false));
-  }, [event.name, event.description, event.date, dispatch]);
+  const onSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      setIsLoading(true);
+      createEvent(event.name, event.description, event.date)
+        .then(dispatch)
+        .catch(({ message }) => setField('error', message))
+        .finally(() => setIsLoading(false));
+    },
+    [event.name, event.description, event.date, dispatch]
+  );
 
   return { event, setField, onSubmit, isLoading };
 };
