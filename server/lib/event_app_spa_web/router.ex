@@ -18,8 +18,8 @@ defmodule EventAppSpaWeb.Router do
 
     resources "/users", UserController, except: [:new, :edit]
     resources "/events", EventController, except: [:new, :edit]
-    resources "/invites", InviteController, except: [:new, :edit]
-    resources "/comments", CommentController, except: [:new, :edit]
+    resources "/invites", InviteController, except: [:index, :new, :edit]
+    resources "/comments", CommentController, except: [:index, :update, :new, :edit]
     resources "/session", SessionController, only: [:create, :delete]
   end
 

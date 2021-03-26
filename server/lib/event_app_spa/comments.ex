@@ -17,8 +17,13 @@ defmodule EventAppSpa.Comments do
       [%Comment{}, ...]
 
   """
-  def list_comments do
-    Repo.all(Comment)
+  def list_comments(event_id) do
+    comment_query =
+      from(i in Comment,
+        where: i.event_id == ^event_id
+      )
+
+    Repo.all(comment_query)
   end
 
   @doc """
