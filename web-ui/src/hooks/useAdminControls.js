@@ -16,7 +16,10 @@ export const useAdminControls = () => {
   const onEdit = useCallback(() => history.push(`/events/${id}/edit`), [id]);
   const onDelete = useCallback(() => {
     deleteEvent(id, token)
-      .then(dispatch)
+      .then((action) => {
+        history.push('/');
+        dispatch(action);
+      })
       .catch(({ message }) => setError(message));
   }, [id, dispatch]);
 

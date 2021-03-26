@@ -72,9 +72,8 @@ export const deleteEvent = (id, token) =>
     method: 'DELETE',
     headers: { 'x-auth': token },
   })
-    .then((response) => response.json())
     .then((response) => {
-      if (response.data) return response;
+      if (response.ok) return response;
       const message = Object.values(response.errors).join('\n');
       throw new Error(message);
     })
