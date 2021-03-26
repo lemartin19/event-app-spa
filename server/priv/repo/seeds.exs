@@ -32,6 +32,9 @@ bday = Repo.insert!(%Event{
   date: ~N[2021-07-15 18:00:00]
 })
 
+Repo.insert!(%Invite{event_id: bday.id, email: "ally@yahoo.com",  response: "Yes"})
+Repo.insert!(%Invite{event_id: bday.id, email: "keara.russell@northeastern.edu",  response: nil})
+
 Repo.insert!(%Comment{
   user_id: lynnsey.id,
   event_id: bday.id,
