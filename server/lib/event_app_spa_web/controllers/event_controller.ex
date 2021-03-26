@@ -39,23 +39,73 @@ defmodule EventAppSpaWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Events.get_event!(id)
-    render(conn, "show.json", event: event)
+    current_user = conn.assigns[:current_user]
+
+    if Helpers.is_event_owner_or_invitee?(current_user.id, id) do
+      event = Events.get_event!(id)
+      render(conn, "show.json", event: event)
+    else
+      conn
+      |> put_resp_header(
+        "content-type",
+        "application/json; charset=UTF-8"
+      )
+      |> send_resp(
+        :unauthorized,
+        Jason.encode!(%{errors: ["You do not have an invitation to this event."]})
+      )
+    end
   end
 
   def update(conn, %{"id" => id, "event" => event_params}) do
     event = Events.get_event!(id)
+    current_user = conn.assigns[:current_user]
 
-    with {:ok, %Event{} = event} <- Events.update_event(event, event_params) do
-      render(conn, "show.json", event: event)
+    if Helpers.is_event_owner?(current_user.id, id) do
+      case Events.update_event(event, event_params) do
+        {:ok, %Event{} = event} ->
+          render(conn, "show.json", event: event)
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          conn
+          |> put_status(:bad_request)
+          |> render("error.json", changeset: changeset)
+      end
+    else
+      conn
+      |> put_resp_header(
+        "content-type",
+        "application/json; charset=UTF-8"
+      )
+      |> send_resp(
+        :unauthorized,
+        Jason.encode!(%{errors: ["You must be the owner of this event to update it."]})
+      )
     end
   end
 
   def delete(conn, %{"id" => id}) do
     event = Events.get_event!(id)
+    current_user = conn.assigns[:current_user]
 
-    with {:ok, %Event{}} <- Events.delete_event(event) do
-      send_resp(conn, :no_content, "")
+    if Helpers.is_event_owner?(current_user.id, id) do
+      case Events.delete_event(event) do
+        {:ok, _} ->
+          send_resp(conn, :no_content, "")
+
+        {:error, _} ->
+          send_resp(conn, :bad_request, Jason.encode!(%{errors: ["Failed to delete event."]}))
+      end
+    else
+      conn
+      |> put_resp_header(
+        "content-type",
+        "application/json; charset=UTF-8"
+      )
+      |> send_resp(
+        :unauthorized,
+        Jason.encode!(%{errors: ["You must be the owner of this event to update it."]})
+      )
     end
   end
 end

@@ -19,8 +19,10 @@ export const fetchEvents = (token) =>
     })
     .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }));
 
-export const fetchEvent = (id) =>
-  fetch(`${API_BASE}/events/${id}`)
+export const fetchEvent = (id, token) =>
+  fetch(`${API_BASE}/events/${id}`, {
+    headers: { 'x-auth': token },
+  })
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
