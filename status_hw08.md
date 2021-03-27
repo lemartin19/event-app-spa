@@ -4,23 +4,23 @@ Web Dev Spring 2021 HW08 Status
 Answer the following questions:
 
 
-1. What's your name?
+1. What's your name?  
 Lynnsey Martin
 
 
-2. What's the URL of the github repo with your work for this HW?
+2. What's the URL of the github repo with your work for this HW?  
 https://github.com/lemartin19/event-app-spa
 
 
-3. What's the URL that you deployed to?
+3. What's the URL that you deployed to?  
 events-spa.seablue.site
 
 
-4. Is your app functionality complete? If not, what's missing?
+4. Is your app functionality complete? If not, what's missing?  
 yes
 
 
-5. Is your app properly deployed? If not, what went wrong?
+5. Is your app properly deployed? If not, what went wrong?  
 yes
 
 
