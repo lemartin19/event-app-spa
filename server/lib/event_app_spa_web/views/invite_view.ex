@@ -1,6 +1,7 @@
 defmodule EventAppSpaWeb.InviteView do
   use EventAppSpaWeb, :view
   alias EventAppSpaWeb.InviteView
+  alias EventAppSpaWeb.ChangesetView
 
   def render("index.json", %{invites: invites}) do
     %{data: render_many(invites, InviteView, "invite.json")}
@@ -11,8 +12,15 @@ defmodule EventAppSpaWeb.InviteView do
   end
 
   def render("invite.json", %{invite: invite}) do
-    %{id: invite.id,
+    %{
+      id: invite.id,
       user_email: invite.user_email,
-      response: invite.response}
+      response: invite.response,
+      event_id: invite.event_id
+    }
+  end
+
+  def render("error.json", %{changeset: changeset}) do
+    render_one(changeset, ChangesetView, "error.json")
   end
 end

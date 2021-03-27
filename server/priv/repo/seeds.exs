@@ -14,6 +14,7 @@ alias EventAppSpa.Repo
 alias EventAppSpa.Users.User
 alias EventAppSpa.Events.Event
 alias EventAppSpa.Comments.Comment
+alias EventAppSpa.Invites.Invite
 
 defmodule Inject do
   def user(name, email, password) do
@@ -32,8 +33,8 @@ bday = Repo.insert!(%Event{
   date: ~N[2021-07-15 18:00:00]
 })
 
-Repo.insert!(%Invite{event_id: bday.id, email: "ally@yahoo.com",  response: "Yes"})
-Repo.insert!(%Invite{event_id: bday.id, email: "keara.russell@northeastern.edu",  response: nil})
+Repo.insert!(%Invite{event_id: bday.id, user_email: "ally@yahoo.com",  response: "Yes"})
+Repo.insert!(%Invite{event_id: bday.id, user_email: "keara.russell@northeastern.edu",  response: nil})
 
 Repo.insert!(%Comment{
   user_id: lynnsey.id,
