@@ -22,7 +22,7 @@ export const useRsvpForm = () => {
     (event) => {
       event.preventDefault();
       setIsLoading(true);
-      updateInvite({ id: inviteId, response }, token)
+      updateInvite({ id: inviteId, inviteRsvp: response }, token)
         .then((action) => {
           setIsLoading(false);
           dispatch(action);

@@ -1,32 +1,47 @@
 'use es6';
 
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { RESPONSES } from '../data/invites';
+import { useInviteTable } from '../hooks/useInviteTable';
 
-const InviteRow = ({ user_email, response }) => (
-  <tr>
-    <td>{user_email}</td>
-    <td>{response}</td>
-  </tr>
-);
+const InviteRow = ({ id, user_email, response }) => {
+  const { isEventOwner, onDelete } = useInviteTable(id);
+  return (
+    <tr>
+      <td>{user_email}</td>
+      <td>{response}</td>
+      {isEventOwner ? (
+        <td className="d-flex justify-content-center">
+          <Button variant="outline-danger" onClick={onDelete}>
+            Delete
+          </Button>
+        </td>
+      ) : null}
+    </tr>
+  );
+};
 InviteRow.displayName = 'InviteRow';
 
-const InviteTable = ({ invites }) => (
-  <Table striped bordered hover className="my-2">
-    <thead>
-      <tr>
-        <th>Email</th>
-        <th>Response</th>
-      </tr>
-    </thead>
-    <tbody>
-      {Object.values(invites).map((invite) => (
-        <InviteRow {...invite} key={invite.user_email} />
-      ))}
-    </tbody>
-  </Table>
-);
+const InviteTable = ({ invites }) => {
+  const { isEventOwner } = useInviteTable();
+  return (
+    <Table striped bordered hover className="my-2">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Response</th>
+          {isEventOwner ? <th></th> : null}
+        </tr>
+      </thead>
+      <tbody>
+        {Object.values(invites).map((invite) => (
+          <InviteRow {...invite} key={invite.user_email} />
+        ))}
+      </tbody>
+    </Table>
+  );
+};
 InviteTable.displayName = 'InviteTable';
 
 const ResponseCount = ({ response, count }) => (
