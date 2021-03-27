@@ -57,7 +57,7 @@ export const deleteInvite = (id, token) =>
     .then(() => ({ type: DELETE_INVITE, payload: { id } }));
 
 export const updateInvite = ({ id, inviteRsvp }, token) =>
-  fetch(`${API_BASE}/events/${id}`, {
+  fetch(`${API_BASE}/invites/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

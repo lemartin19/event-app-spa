@@ -60,11 +60,30 @@ defmodule EventAppSpaWeb.InviteController do
     end
   end
 
-  def update(conn, %{"id" => id, "invite" => invite_params}) do
-    invite = Invites.get_invite!(id)
+  def update(conn, invite_params) do
+    current_user = conn.assigns[:current_user]
+    invite = Invites.get_invite!(invite_params["id"])
 
-    with {:ok, %Invite{} = invite} <- Invites.update_invite(invite, invite_params) do
-      render(conn, "show.json", invite: invite)
+    if current_user.email == invite.user_email do
+      case Invites.update_invite(invite, invite_params) do
+        {:ok, %Invite{} = invite} ->
+          render(conn, "show.json", invite: invite)
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          conn
+          |> put_status(:bad_request)
+          |> render("error.json", changeset: changeset)
+      end
+    else
+      conn
+      |> put_resp_header(
+        "content-type",
+        "application/json; charset=UTF-8"
+      )
+      |> send_resp(
+        :unauthorized,
+        Jason.encode!(%{errors: ["You cannot update this invitation."]})
+      )
     end
   end
 
