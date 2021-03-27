@@ -50,7 +50,7 @@ const NewUser = () => {
           required
         />
         <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Login'}
+          {isLoading ? 'Loading...' : 'Register'}
         </Button>
       </Form>
     </Container>

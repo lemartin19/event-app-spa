@@ -12,7 +12,9 @@ export const fetchUsers = () =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: FETCH_USERS, payload: data }));
@@ -22,7 +24,9 @@ export const fetchUser = (id) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: FETCH_USER, payload: data }));
@@ -38,7 +42,9 @@ export const createUser = (username, email, password) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: CREATE_USER, payload: data }));

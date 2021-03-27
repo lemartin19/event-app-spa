@@ -16,7 +16,9 @@ export const fetchEvents = (token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: FETCH_EVENTS, payload: data }));
@@ -28,7 +30,9 @@ export const fetchEvent = (id, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: FETCH_EVENT, payload: data }));
@@ -45,7 +49,9 @@ export const createEvent = ({ name, description, date }, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: CREATE_EVENT, payload: data }));
@@ -62,7 +68,9 @@ export const updateEvent = ({ id, name, description, date }, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: UPDATE_EVENT, payload: data }));
@@ -74,7 +82,9 @@ export const deleteEvent = (id, token) =>
   })
     .then((response) => {
       if (response.ok) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(() => ({ type: DELETE_EVENT, payload: { id } }));

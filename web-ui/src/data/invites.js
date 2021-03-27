@@ -22,7 +22,9 @@ export const fetchInvites = (eventId, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: FETCH_INVITES, eventId, payload: data }));
@@ -39,7 +41,9 @@ export const createInvite = ({ event_id, user_email }, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: CREATE_INVITE, payload: data }));
@@ -51,7 +55,9 @@ export const deleteInvite = (id, token) =>
   })
     .then((response) => {
       if (response.ok) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(() => ({ type: DELETE_INVITE, payload: { id } }));
@@ -68,7 +74,9 @@ export const updateInvite = ({ id, inviteRsvp }, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: UPDATE_INVITE, payload: data }));

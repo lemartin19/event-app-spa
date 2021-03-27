@@ -14,7 +14,9 @@ export const fetchComments = (eventId, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: FETCH_COMMENTS, eventId, payload: data }));
@@ -31,7 +33,9 @@ export const createComment = ({ eventId, body }, token) =>
     .then((response) => response.json())
     .then((response) => {
       if (response.data) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(({ data }) => ({ type: CREATE_COMMENT, payload: data }));
@@ -43,7 +47,9 @@ export const deleteComment = (id, token) =>
   })
     .then((response) => {
       if (response.ok) return response;
-      const message = Object.values(response.errors).join('\n');
+      const message = Object.keys(response.errors)
+        .map((key) => `${key}: ${response.errors[key].toString()}`)
+        .join('\n');
       throw new Error(message);
     })
     .then(() => ({ type: DELETE_COMMENT, payload: { id } }));

@@ -1,5 +1,14 @@
 use Mix.Config
 
+# Configure your database
+config :event_app_spa, EventAppSpa.Repo,
+  username: "event_app_spa",
+  password: "VCvp2QUBEV8SCjN3",
+  database: "event_app_spa_prod",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
