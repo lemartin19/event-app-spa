@@ -14,6 +14,8 @@ defmodule EventAppSpaWeb.InviteController do
     current_user = conn.assigns[:current_user]
 
     if Helpers.is_event_owner?(current_user.id, invite_params["event_id"]) do
+      IO.inspect(invite_params)
+
       case Invites.create_invite(invite_params) do
         {:ok, %Invite{} = invite} ->
           conn

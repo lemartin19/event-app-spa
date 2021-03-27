@@ -9,6 +9,7 @@ import MaybeError from './MaybeError';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 import InviteList from './InviteList';
+import InviteForm from './InviteForm';
 
 const EventInfo = ({ name, date, description, hostedBy }) => (
   <div>
@@ -33,6 +34,7 @@ const AdminControls = () => {
           Delete
         </Button>
       </div>
+      <InviteForm />
     </div>
   );
 };

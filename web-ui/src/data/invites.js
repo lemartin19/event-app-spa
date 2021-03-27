@@ -27,14 +27,14 @@ export const fetchInvites = (eventId, token) =>
     })
     .then(({ data }) => ({ type: FETCH_INVITES, eventId, payload: data }));
 
-export const createInvite = ({ eventId, userEmail }, token) =>
+export const createInvite = ({ event_id, user_email }, token) =>
   fetch(`${API_BASE}/invites`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'x-auth': token,
     },
-    body: JSON.stringify({ event_id: eventId, user_email: userEmail }),
+    body: JSON.stringify({ event_id, user_email }),
   })
     .then((response) => response.json())
     .then((response) => {

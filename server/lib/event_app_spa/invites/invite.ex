@@ -14,7 +14,7 @@ defmodule EventAppSpa.Invites.Invite do
   def changeset(invite, attrs) do
     invite
     |> cast(attrs, [:user_email, :response, :event_id])
-    |> validate_required([:user_email, :response])
+    |> validate_required([:user_email, :event_id])
     |> unique_constraint(:invitee_email, name: :invitee_email)
   end
 end

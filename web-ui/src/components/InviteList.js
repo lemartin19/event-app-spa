@@ -40,6 +40,7 @@ const InviteSummary = ({ invites }) => (
   <div className="d-flex my-2">
     {Object.keys(RESPONSES).map((possibleResponse) => (
       <ResponseCount
+        key={RESPONSES[possibleResponse]}
         response={possibleResponse}
         count={
           Object.values(invites).filter(
