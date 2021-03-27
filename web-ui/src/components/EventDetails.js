@@ -10,6 +10,7 @@ import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 import InviteList from './InviteList';
 import InviteForm from './InviteForm';
+import RsvpForm from './RsvpForm';
 
 const EventInfo = ({ name, date, description, hostedBy }) => (
   <div>
@@ -49,6 +50,7 @@ const EventDetails = () => {
       <MaybeError error={error} />
       {event ? <EventInfo {...event} hostedBy={owner && owner.name} /> : null}
       {owner && event.user_id === owner.id ? <AdminControls /> : null}
+      <RsvpForm />
       <InviteList invites={invites} />
       <CommentList comments={comments} />
       <CommentForm />

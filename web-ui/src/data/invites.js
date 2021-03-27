@@ -103,3 +103,10 @@ export const invitesReducer = createReducer(
 );
 
 export const getInvites = (state, eventId) => state.invites[eventId];
+export const getInviteId = (state, eventId, userEmail) => {
+  const invites = state.invites[eventId];
+  const [maybeUsersInvite] = !invites
+    ? []
+    : invites.filter(({ user_email }) => user_email === userEmail);
+  return maybeUsersInvite ? maybeUsersInvite.id : null;
+};
