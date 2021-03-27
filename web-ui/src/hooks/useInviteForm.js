@@ -32,5 +32,7 @@ export const useInviteForm = () => {
     [id, token, email, dispatch]
   );
 
-  return { email, setEmail, isLoading, onSubmit, error };
+  const inviteLink = window.location.href;
+
+  return { email, setEmail, isLoading, onSubmit, inviteLink, error };
 };
